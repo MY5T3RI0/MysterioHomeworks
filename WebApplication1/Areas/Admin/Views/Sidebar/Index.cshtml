@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebApplication1.Models.ViewModels.Pages.SidebarVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SM"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Create New", "AddSidebar")
+</p>
+
+@if (!Model.Any())
+{
+    <h1 class="text-center">There are no sidebars</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditSidebar", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "SidebarDetails", new { id = item.Id })
+                    @if (item.Title != "HOME")
+                    {<span>|</span>
+                        @Html.ActionLink(" Delete", "DeleteSidebar", new { id = item.Id }, new { @class = "delete" })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@section Scripts
+{
+    <script>
+        $(function () {
+
+            $("a.delete").click(function () {
+                if (!confirm("Confirm page deletion")) {
+                    return false;
+                }
+            });
+
+        });
+    </script>
+}
