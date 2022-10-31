@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -246,8 +247,8 @@ namespace WebApplication1.Areas.Admin.Controllers
                 ViewBag.SelectedCat = catId.ToString();
             }
 
-            //var onePageOfProducts = listOfWorksVM.ToPagedList(pageNumber, 3);
-            //ViewBag.onePageOfProducts = onePageOfProducts;
+            var onePageOfWorks = listOfWorksVM.ToPagedList(pageNumber, 3);
+            ViewBag.onePageOfWorks = onePageOfWorks;
 
             return View(listOfWorksVM);
         }
@@ -263,7 +264,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
                 if (dto == null)
                 {
-                    return Content("That product does not exist");
+                    return Content("That work does not exist");
                 }
 
                 model = new WorkVM(dto);
@@ -319,7 +320,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                     ext != "image/jpg" &&
                     ext != "image/jpeg" &&
                     ext != "image/pjpeg" &&
-                    ext != "image/gif" &&
+                    //ext != "image/gif" &&
                     ext != "image/x-png" &&
                     ext != "image/png"
                 )

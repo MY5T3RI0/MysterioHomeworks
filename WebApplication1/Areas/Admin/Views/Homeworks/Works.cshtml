@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebApplication1.Models.ViewModels.Homeworks.WorkVM>
+
+@{
+    ViewBag.Title = "Works";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>Works</h2>
+
+<select id="SelectCategory" name="SelectCategory">
+    <option value="0">All</option>
+    @foreach (var item in ViewBag.Categories)
+    {
+        if (ViewBag.SelectedCat == item.Value)
+        {
+            <option selected="selected" value="@item.Value">@item.Text</option>
+        }
+        else
+        {
+            <option value="@item.Value">@item.Text</option>
+        }
+    }
+</select>
+
+<p>
+    @Html.ActionLink("Create New", "AddWork", "", new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            Preview
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.OnePageOfWorks)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @item.Date
+            </td>
+            <td>
+                @item.CategoryName
+            </td>
+            <td>
+                <a href="/admin/shop/EditProduct/@item.Id">
+                    @if (@item.ImageName == null)
+                    {
+                        <img src="~/Content/img/no_image.png" />
+                    }
+                    else
+                    {
+                        <img src="/Images/Uploads/Works/@item.Id/Thumbs/@item.ImageName" alt="Product image" />
+                    }
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditWork", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteWork", new { id = item.Id }, new { @class = "delete" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager((IPagedList)ViewBag.onePageOfWorks, page => Url.Action("Works", new { page, catId = ViewBag.SelectedCat }))
+
+@section Scripts
+{
+    <script src="~/Content/HomeworksJS/WorkJS.js"></script>
+}

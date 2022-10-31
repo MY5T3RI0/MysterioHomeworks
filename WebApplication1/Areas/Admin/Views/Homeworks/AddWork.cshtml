@@ -6,7 +6,7 @@
 
 <h2>Add Work</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddWork", "Homeworks", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
