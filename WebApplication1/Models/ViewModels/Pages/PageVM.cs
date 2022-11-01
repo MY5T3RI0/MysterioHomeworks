@@ -34,6 +34,8 @@ namespace WebApplication1.Models.ViewModels.Pages
         [AllowHtml]
         public string Body { get; set; }
         public int Sorting { get; set; }
+
+        [Display(Name = "Sidebar")]
         public bool HasSidebar { get; set; }
     }
 }
