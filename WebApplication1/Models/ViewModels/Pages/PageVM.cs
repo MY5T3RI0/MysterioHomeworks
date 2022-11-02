@@ -37,5 +37,8 @@ namespace WebApplication1.Models.ViewModels.Pages
 
         [Display(Name = "Sidebar")]
         public bool HasSidebar { get; set; }
+        public int SidebarId { get; set; }
+        public string SidebarName { get; set; }
+        public IEnumerable<SelectListItem> Sidebars { get; set; }
     }
 }

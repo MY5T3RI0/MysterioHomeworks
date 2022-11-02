@@ -30,5 +30,6 @@ namespace WebApplication1.Models.ViewModels.Pages
         [StringLength(int.MaxValue, MinimumLength = 3)]
         [AllowHtml]
         public string Body { get; set; }
+        public int Sorting { get; set; }
     }
 }

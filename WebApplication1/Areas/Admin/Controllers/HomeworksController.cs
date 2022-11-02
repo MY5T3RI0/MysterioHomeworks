@@ -320,7 +320,6 @@ namespace WebApplication1.Areas.Admin.Controllers
                     ext != "image/jpg" &&
                     ext != "image/jpeg" &&
                     ext != "image/pjpeg" &&
-                    //ext != "image/gif" &&
                     ext != "image/x-png" &&
                     ext != "image/png"
                 )
@@ -408,6 +407,23 @@ namespace WebApplication1.Areas.Admin.Controllers
             foreach (string fileName in Request.Files)
             {
                 var file = Request.Files[fileName];
+
+                var ext = file.ContentType.ToLower();
+                if
+                (
+                    ext != "image/jpg" &&
+                    ext != "image/jpeg" &&
+                    ext != "image/pjpeg" &&
+                    ext != "image/x-png" &&
+                    ext != "image/png"
+                )
+                {
+                    using (var db = new Db())
+                    {
+                        ModelState.AddModelError("", "The image was not upload - wrong image extention");
+                        return;
+                    }
+                }
 
                 if (file != null && file.ContentLength > 0)
                 {

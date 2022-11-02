@@ -35,19 +35,26 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Date)
+            @{string date = $"{item.Date.Day}.{item.Date.Month}.{item.Date.Year} ({item.Date.DayOfWeek})"; }
+            @Html.DisplayFor(modelItem => date)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CategoryName)
         </td>
         <td>
             <a href="/shop/product-details/@item.Slug">
-                <img src="/Images/Uploads/Works/@item.Id/Thumbs/@item.ImageName" alt="Work image" />
+                @if (string.IsNullOrWhiteSpace(item.ImageName))
+                {
+                    <img src="~/Content/img/no_image.png" />
+                }
+                else
+                {
+                    <img src="/Images/Uploads/Works/@item.Id/Thumbs/@item.ImageName" alt="Work image" />
+                }
             </a>
         </td>
         <td>
             @Html.ActionLink("Details", "work-details", "Homeworks", new { id = item.Id }, null)
-            @*<a href="/homeworks/work-details/@item.Id" class="btn btn-info">Details</a>*@
         </td>
     </tr>
 }

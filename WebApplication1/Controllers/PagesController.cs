@@ -36,6 +36,7 @@ namespace WebApplication1.Controllers
             if (dto.HasSidebar == true)
             {
                 ViewBag.Sidebar = "Yes";
+                ViewBag.SidebarId = dto.SidebarId;
             }
             else
             {
@@ -60,13 +61,13 @@ namespace WebApplication1.Controllers
             return PartialView("_PagesMenuPartial", pageVMList);
         }
 
-        public ActionResult SidebarPartial()
+        public ActionResult SidebarPartial(int SidebarId)
         {
             SidebarVM model;
 
             using (var db = new Db())
             {
-                SidebarDTO dto = db.Sidebar.Find(3);
+                SidebarDTO dto = db.Sidebar.Find(SidebarId);
                 model = new SidebarVM(dto);
             }
 

@@ -17,6 +17,10 @@ namespace WebApplication1.Models.Data
         public string Body { get; set; }
         public int Sorting { get; set; }
         public bool HasSidebar { get; set; }
+        public int? SidebarId { get; set; }
+        public string SidebarName { get; set; }
 
+        [ForeignKey("SidebarId")]
+        public virtual SidebarDTO Sidebar { get; set; }
     }
 }

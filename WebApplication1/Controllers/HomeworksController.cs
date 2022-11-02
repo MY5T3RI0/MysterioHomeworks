@@ -41,6 +41,7 @@ namespace WebApplication1.Controllers
                 int catId = categoryDTO.Id;
 
                 workVMList = db.Works.ToArray().Where(p => p.CategoryId == catId)
+                    .OrderBy(p => p.Date)
                     .Select(p => new WorkVM(p)).ToList();
                 var productCat = db.Works.Where(p => p.CategoryId == catId).FirstOrDefault();
 

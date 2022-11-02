@@ -32,7 +32,7 @@
     <div class="container body-content" style="margin-top:30px">
         <div class="row" style="min-height:83.5vh">
 
-            <div class="col-sm-12 col-md-3 list-group" style="position:relative">
+            <div class="col-sm-12 col-md-2 list-group" style="position:relative">
                 <div class="fixed">
                     @Html.Action("CategoryMenuPartial", "Homeworks")
                 </div>
@@ -43,9 +43,9 @@
                 <div class="col">
                     @RenderBody()
                 </div>
-                <div class="col-sm-12 col-md-3" style="position:relative">
+                <div class="col-sm-12 col-md-2" style="position:relative">
                     <div class="fixed">
-                        @Html.Action("SidebarPartial", "Pages")
+                        @Html.Action("SidebarPartial", "Pages", new { ViewBag.SidebarId })
                     </div>
                 </div>
             }
@@ -67,5 +67,6 @@
 <footer class="footer">
     <hr />
     <p>&copy; @DateTime.Now.Year - designed by MYSTERIO</p>
+    <br />
 </footer>
 </html>

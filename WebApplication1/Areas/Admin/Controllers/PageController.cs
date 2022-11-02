@@ -28,7 +28,14 @@ namespace WebApplication1.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult AddPage()
         {
-            return View();
+            var model = new PageVM();
+
+            using (var db = new Db())
+            {
+                model.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
+            }
+
+            return View(model);
         }
 
         // POST: Admin/Page/AddPage
@@ -38,11 +45,18 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
+                using (var db = new Db())
+                {
+                    page.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
+                }
+
                 return View(page);
             }
 
             using (var db = new Db())
             {
+                page.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
+
                 string slug;
 
                 var dto = new PagesDTO();
@@ -77,6 +91,15 @@ namespace WebApplication1.Areas.Admin.Controllers
 
                 dto.Sorting = 100;
 
+                dto.SidebarId = page.SidebarId;
+                var sideDTO = db.Sidebar.FirstOrDefault(c => c.Id == page.SidebarId);
+                if (sideDTO == null)
+                {
+                    sideDTO = db.Sidebar.FirstOrDefault(c => c.Id == 3);
+                }
+
+                dto.SidebarName = sideDTO.Title;
+
                 db.Pages.Add(dto);
                 db.SaveChanges();
             }
@@ -97,6 +120,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 if(db.Pages.FirstOrDefault(p => p.Id == id) is PagesDTO dto)
                 {
                     page = new PageVM(dto);
+                    page.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
                 }
                 else
                 {
@@ -114,11 +138,18 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
+                using (var db = new Db())
+                {
+                    page.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
+                }
+
                 return View(page);
             }
 
             using (var db = new Db())
             {
+                page.Sidebars = new SelectList(db.Sidebar.ToList(), "id", "Title");
+
                 string slug = "home";
 
                 var dto = db.Pages.Find(page.Id);
@@ -153,6 +184,16 @@ namespace WebApplication1.Areas.Admin.Controllers
                 dto.Body = page.Body;
 
                 dto.HasSidebar = page.HasSidebar;
+
+                dto.SidebarId = page.SidebarId;
+              
+                var sideDTO = db.Sidebar.FirstOrDefault(c => c.Id == page.SidebarId);
+                if (sideDTO == null)
+                {
+                    sideDTO = db.Sidebar.FirstOrDefault(c => c.Id == 3);
+                }
+
+                dto.SidebarName = sideDTO.Title;
 
                 db.SaveChanges();
             }

@@ -17,7 +17,7 @@ namespace WebApplication1.Areas.Admin.Controllers
 
             using (var db = new Db())
             {
-                sidebarList = db.Sidebar.ToArray().Select(p => new SidebarVM(p)).ToList();
+                sidebarList = db.Sidebar.ToArray().OrderBy(p => p.Sorting).Select(p => new SidebarVM(p)).ToList();
             }
 
             return View(sidebarList);
@@ -53,6 +53,8 @@ namespace WebApplication1.Areas.Admin.Controllers
                     ModelState.AddModelError("", "That titile already exist.");
                     return View(sidebar);
                 }
+
+                dto.Sorting = 100;
 
                 db.Sidebar.Add(dto);
                 db.SaveChanges();
@@ -159,6 +161,24 @@ namespace WebApplication1.Areas.Admin.Controllers
             TempData["SM"] = "Sidebar deleted!";
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public void ReorderSidebars(int[] id)
+        {
+            using (var db = new Db())
+            {
+                int count = 1;
+                SidebarDTO dto;
+                foreach (var sidebarId in id)
+                {
+                    dto = db.Sidebar.Find(sidebarId);
+                    dto.Sorting = count;
+                    db.SaveChanges();
+                    count++;
+                }
+
+            }
         }
     }
 }
